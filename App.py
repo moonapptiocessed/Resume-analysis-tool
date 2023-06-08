@@ -19,9 +19,6 @@ from Courses import ds_course, web_course, android_course, ios_course, uiux_cour
 import pafy
 import plotly.express as px
 import youtube_dl
-import tika
-tika.initVM()
-from tika import parser
 import re
 import PyPDF2
 import spacy
@@ -33,8 +30,26 @@ import string
 import pandas as pd
 import matplotlib.pyplot as plt
 save_image_path = None
+from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
+from pdfminer.pdfpage import PDFPage
+from pdfminer.converter import TextConverter
+from pdfminer.layout import LAParams
+from io import StringIO
 
+def parse_pdf(file_path):
+    resource_manager = PDFResourceManager()
+    output_stream = StringIO()
+    laparams = LAParams()
 
+    with open(file_path, 'rb') as file:
+        interpreter = PDFPageInterpreter(resource_manager, TextConverter(resource_manager, output_stream, laparams=laparams))
+        for page in PDFPage.get_pages(file, check_extractable=True):
+            interpreter.process_page(page)
+
+    content = output_stream.getvalue()
+    output_stream.close()
+
+    return content
 # load pre-trained model
 nlp = spacy.load('en_core_web_sm')
 
@@ -291,7 +306,7 @@ def get_hobbies(string):
 def get_resume_for_parsing(file):
     file_for_parsing = file
     num_pages = get_pdf_page_count(file_for_parsing)
-    file_data = parser.from_file(file_for_parsing)
+    file_data = parse_pdf(file_for_parsing)
     text = file_data['content']
     extracted_text = {}
     extracted_text["No of pages"] = num_pages
