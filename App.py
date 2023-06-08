@@ -15,7 +15,7 @@ from pdfminer3.converter import TextConverter
 import io, random
 from streamlit_tags import st_tags
 from PIL import Image
-from Courses import ds_course, web_course, android_course, ios_course, uiux_course, resume_videos, interview_videos
+from Courses import ds_course, web_course, android_course, ios_course, uiux_course, ds_jobs, web_jobs, android_jobs, ios_jobs, uiux_jobs
 import pafy
 import plotly.express as px
 import youtube_dl
@@ -85,81 +85,121 @@ def extract_resume_data(file_path):
     text = text.translate(str.maketrans('', '', string.punctuation))
 
     # Create dictionary with industrial and system engineering key terms by area
+    
     terms = {
-        'Quality/Six Sigma': ['black belt', 'capability analysis', 'control charts', 'doe', 'dmaic', 'fishbone',
-                              'gage r&r', 'green belt', 'ishikawa', 'iso', 'kaizen', 'kpi', 'lean', 'metrics',
-                              'pdsa', 'performance improvement', 'process improvement', 'quality',
-                              'quality circles', 'quality tools', 'root cause', 'six sigma',
-                              'stability analysis', 'statistical analysis', 'tqm'],
-        'Operations management': ['automation', 'bottleneck', 'constraints', 'cycle time', 'efficiency', 'fmea',
-                                  'machinery', 'maintenance', 'manufacture', 'line balancing', 'oee', 'operations',
-                                  'operations research', 'optimization', 'overall equipment effectiveness',
-                                  'pfmea', 'process', 'process mapping', 'production', 'resources', 'safety',
-                                  'stoppage', 'value stream mapping', 'utilization'],
-        'Supply chain': ['abc analysis', 'apics', 'customer', 'customs', 'delivery', 'distribution', 'eoq', 'epq',
-                         'fleet', 'forecast', 'inventory', 'logistic', 'materials', 'outsourcing', 'procurement',
-                         'reorder point', 'rout', 'safety stock', 'scheduling', 'shipping', 'stock', 'suppliers',
-                         'third party logistics', 'transport', 'transportation', 'traffic', 'supply chain',
-                         'vendor', 'warehouse', 'wip', 'work in progress'],
-        'Project management': ['administration', 'agile', 'budget', 'cost', 'direction', 'feasibility analysis',
-                               'finance', 'kanban', 'leader', 'leadership', 'management', 'milestones', 'planning',
-                               'pmi', 'pmp', 'problem', 'project', 'risk', 'schedule', 'scrum', 'stakeholders'],
-        'Data analytics': ['analytics', 'api', 'aws', 'big data', 'busines intelligence', 'clustering', 'code',
-                           'coding', 'data', 'database', 'data mining', 'data science', 'deep learning', 'hadoop',
-                           'hypothesis test', 'iot', 'internet', 'machine learning', 'modeling', 'nosql', 'nlp',
-                           'predictive', 'programming', 'python', 'r', 'sql', 'tableau', 'text mining',
-                           'visualuzation'],
-        'Healthcare': ['adverse events', 'care', 'clinic', 'cphq', 'ergonomics', 'healthcare',
-                       'health care', 'health', 'hospital', 'human factors', 'medical', 'near misses',
-                       'patient', 'reporting system']
+        'Data Science': [
+    'tensorflow', 'keras', 'pytorch', 'machine learning', 'deep learning', 'flask', 'streamlit',
+    'data analysis', 'statistical modeling', 'r programming', 'data visualization', 'sql',
+    'big data', 'natural language processing', 'predictive analytics', 'neural networks',
+    'data mining', 'time series analysis', 'cloud computing', 'hadoop', 'spark',
+    'bayesian statistics', 'a/b testing', 'feature engineering', 'dimensionality reduction',
+    'unsupervised learning', 'supervised learning', 'reinforcement learning', 'data cleaning',
+    'data wrangling', 'data engineering', 'data warehousing', 'etl', 'business intelligence',
+    'decision trees', 'random forests', 'support vector machines', 'logistic regression',
+    'linear regression', 'optimization', 'experiment design', 'ensemble methods', 'clustering',
+    'data governance', 'data ethics', 'data privacy', 'data security', 'data strategy',
+    'data integration', 'data science lifecycle'
+],
+        'Web Development': [
+    'react', 'django', 'node.js', 'react.js', 'php', 'laravel', 'magento', 'wordpress',
+    'javascript', 'angularjs', 'c#', 'flask', 'html', 'css', 'responsive design',
+    'front-end development', 'back-end development', 'full-stack development', 'restful apis',
+    'web security', 'database design', 'ui/ux design', 'version control', 'agile development',
+    'cross-browser compatibility', 'performance optimization', 'testing and debugging',
+    'web accessibility', 'seo', 'cms', 'e-commerce development', 'responsive frameworks',
+    'web analytics', 'server administration', 'devops', 'continuous integration',
+    'web scraping', 'web performance', 'web standards', 'scalability', 'graphql',
+    'progressive web apps', 'microservices', 'serverless architecture', 'single page applications',
+    'websockets', 'authentication and authorization', 'payment gateway integration',
+    'mobile-first development', 'code optimization', 'c++', 'python', 'java'
+],
+        'Android Development': [
+    'android', 'android development', 'flutter', 'kotlin', 'xml', 'kivy', 'java',
+    'android studio', 'material design', 'firebase', 'json', 'mvvm', 'restful apis',
+    'sqlite', 'gradle', 'android jetpack', 'dependency injection', 'testing', 'google play store',
+    'push notifications', 'background services', 'fragments', 'recyclerview', 'permissions handling',
+    'localization', 'image and video processing', 'sensors integration', 'maps and location services',
+    'bluetooth communication', 'wearable apps', 'in-app purchases', 'security and encryption',
+    'app optimization', 'app publishing', 'app monetization', 'cross-platform development',
+    'app widgets', 'deep linking', 'android ndk', 'performance profiling', 'memory management',
+    'app notifications', 'android architecture components', 'unit testing', 'design patterns',
+    'app updates and versioning', 'app store optimization', 'app security'
+]
+,
+        'IOS Development': [
+    'ios', 'ios development', 'swift', 'cocoa', 'cocoa touch', 'xcode', 'swiftui',
+    'uikit', 'core data', 'auto layout', 'storyboards', 'interface builder',
+    'core animation', 'restful apis', 'json', 'firebase', 'push notifications',
+    'app store connect', 'localization', 'in-app purchases', 'core location',
+    'mapkit', 'networking', 'core bluetooth', 'core graphics', 'core image',
+    'core ml', 'sirikit', 'healthkit', 'arkit', 'core motion', 'core audio',
+    'testflight', 'app security', 'app extensions', 'notifications and background modes',
+    'app design guidelines', 'app publishing', 'code signing', 'provisioning profiles',
+    'memory management', 'unit testing', 'design patterns', 'app lifecycle',
+    'app updates and versioning', 'app performance optimization', 'widgetkit',
+    'swift package manager', 'accessibility', 'app analytics'
+],
+        'UI/UX Development': [
+    'ux', 'adobe xd', 'figma', 'zeplin', 'balsamiq', 'ui', 'prototyping', 'wireframes',
+    'storyframes', 'adobe photoshop', 'editing', 'adobe illustrator', 'illustrator',
+    'adobe after effects', 'after effects', 'adobe premier pro', 'premier pro',
+    'adobe indesign', 'indesign', 'wireframe', 'solid', 'grasp', 'user research',
+    'user experience', 'visual design', 'typography', 'color theory', 'design systems',
+    'responsive design', 'mobile design', 'icon design', 'illustration', 'motion graphics',
+    'user flows', 'design thinking', 'user-centered design', 'persona development',
+    'branding', 'usability testing', 'interaction design', 'information architecture',
+    'user persona', 'card sorting', 'design critique', 'design collaboration',
+    'data visualization', 'responsive web design', 'mobile app design', 'human-computer interaction',
+    'cognitive psychology', 'user interface animation', 'information design', 'usability heuristics',
+    'user testing', 'a/b testing', 'accessibility design', 'user engagement'
+]
     }
 
     # Initialize score counters for each area
-    quality = 0
-    operations = 0
-    supplychain = 0
-    project = 0
-    data = 0
-    healthcare = 0
+    dataScience = 0
+    webDevelopment = 0
+    androidDevelopment = 0
+    iosDevelopment = 0
+    uiux = 0
 
     # Create an empty list to store the scores
     scores = []
 
     # Obtain the scores for each area
     for area in terms.keys():
-        if area == 'Quality/Six Sigma':
+        if area == 'Data Science':
             for word in terms[area]:
                 if word in text:
-                    quality += 1
-            scores.append(quality)
-        elif area == 'Operations management':
+                    dataScience += 1
+            scores.append(dataScience)
+        elif area == 'Web Development':
             for word in terms[area]:
                 if word in text:
-                    operations += 1
-            scores.append(operations)
-        elif area == 'Supply chain':
+                    webDevelopment += 1
+            scores.append(webDevelopment)
+        elif area == 'Android Development':
             for word in terms[area]:
                 if word in text:
-                    supplychain += 1
-            scores.append(supplychain)
-        elif area == 'Project management':
+                    androidDevelopment += 1
+            scores.append(androidDevelopment)
+        elif area == 'IOS Development':
             for word in terms[area]:
                 if word in text:
-                    project += 1
-            scores.append(project)
-        elif area == 'Data analytics':
-            for word in terms[area]:
-                if word in text:
-                    data += 1
-            scores.append(data)
+                    iosDevelopment += 1
+            scores.append(iosDevelopment)
         else:
             for word in terms[area]:
                 if word in text:
-                    healthcare += 1
-            scores.append(healthcare)
+                    uiux += 1
+            scores.append(uiux)
+    total = sum(scores)
+    finalScores = []
+    for score in scores:
+        temp = (score / total) * 100
+        finalScores.append(round(temp, 2))
 
     # Create a summary dataframe
-    summary = pd.DataFrame(scores, index=terms.keys(), columns=['score']).sort_values(by='score', ascending=False)
+    summary = pd.DataFrame(finalScores, index=terms.keys(), columns=['score']).sort_values(by='score', ascending=False)
 
     # Close the pdf file
     pdfFileObj.close()
@@ -169,7 +209,7 @@ def extract_resume_data(file_path):
 def display_pie_chart(summary):
     # Create a pie chart
     pie = plt.figure(figsize=(10, 10))
-    plt.pie(summary['score'], labels=summary.index, explode=(0.1, 0, 0, 0, 0, 0), autopct='%1.0f%%', shadow=True,
+    plt.pie(summary['score'], labels=summary.index, explode=(0.1, 0, 0, 0, 0), autopct='%1.0f%%', shadow=True,
             startangle=90)
     plt.axis('equal')
 
@@ -218,29 +258,26 @@ def extract_skills(resume_text):
     # removing stop words and implementing word tokenization
     tokens = [token.text for token in nlp_text if not token.is_stop]
     
-    skills = ["machine learning",
-             "deep learning",
-             "nlp",
-             "natural language processing",
-             "mysql",
-             "sql",
-             "django",
-             "computer vision",
-              "tensorflow",
-             "opencv",
-             "mongodb",
-             "artificial intelligence",
-             "ai",
-             "flask",
-             "robotics",
-             "data structures",
-             "python",
-             "c++",
-             "matlab",
-             "css",
-             "html",
-             "github",
-             "php"]
+    skills = ['tensorflow', 'keras', 'pytorch', 'machine learning', 'deep learning', 'flask', 'streamlit',
+    'react', 'django', 'node.js', 'react.js', 'php', 'laravel', 'magento', 'wordpress',
+    'android', 'android development', 'flutter', 'kotlin', 'xml', 'kivy',
+    'ios', 'ios development', 'swift', 'cocoa', 'cocoa touch', 'xcode',
+    'ux', 'adobe xd', 'figma', 'zeplin', 'balsamiq', 'ui', 'prototyping', 'wireframes',
+    'adobe photoshop', 'editing', 'adobe illustrator', 'illustrator', 'adobe after effects',
+    'after effects', 'adobe premier pro', 'premier pro', 'adobe indesign', 'indesign',
+    'wireframe', 'solid', 'grasp', 'user research', 'user experience',
+    'mysql', 'sql', 'computer vision', 'opencv', 'mongodb',
+    'artificial intelligence', 'ai', 'data structures', 'python', 'c++', 'matlab',
+    'css', 'html', 'github', 'data analysis', 'statistical modeling', 'r programming',
+    'data visualization', 'big data', 'natural language processing', 'predictive analytics',
+    'neural networks', 'data mining', 'time series analysis', 'cloud computing', 'hadoop',
+    'spark', 'bayesian statistics', 'a/b testing', 'feature engineering', 'dimensionality reduction',
+    'unsupervised learning', 'supervised learning', 'reinforcement learning', 'data cleaning',
+    'data wrangling', 'data engineering', 'data warehousing', 'etl', 'business intelligence',
+    'decision trees', 'random forests', 'support vector machines', 'logistic regression',
+    'linear regression', 'optimization', 'experiment design', 'ensemble methods', 'clustering',
+    'data governance', 'data ethics', 'data privacy', 'data security', 'data strategy',
+    'data integration', 'data science lifecycle']
     
     skillset = []
     
@@ -395,17 +432,22 @@ def course_recommender(course_list):
             break
     return rec_course
 
+def jobs_recommender(job_list):
+    st.subheader("Job Recommendations:")
+    for job in job_list:
+        job_description, job_link = job
+        st.markdown(f"[{job_description}]({job_link})")
 
 st.set_page_config(
     page_title="Smart Resume Analyzer",
-    page_icon='/home/ec2-user/Resume-analysis-tool/Logo/SRA_Logo.ico',
+    page_icon='/Users/sosarkar/collegeprojects/Resume-analysis-tool/Logo/SRA_Logo.ico',
 )
 
 
 def run():
     st.title("Resume parsing tool")
     choice = 'Normal User'
-    img = Image.open('/home/ec2-user/Resume-analysis-tool/Logo/SRA_Logo.jpg')
+    img = Image.open('/Users/sosarkar/collegeprojects/Resume-analysis-tool/Logo/SRA_Logo.jpg')
     img = img.resize((250, 250))
     st.image(img)
 
@@ -448,25 +490,80 @@ def run():
                 st.subheader("**Skills Recommendation💡**")
                 ## Skill shows
                 keywords = st_tags(label='### Skills that you have',
-                                   text='See our skills recommendation',
                                    value=resume_data['Skills'])
 
                 ##  recommendation
-                ds_keyword = ['tensorflow', 'keras', 'pytorch', 'machine learning', 'deep Learning', 'flask',
-                              'streamlit']
-                web_keyword = ['react', 'django', 'node jS', 'react js', 'php', 'laravel', 'magento', 'wordpress',
-                               'javascript', 'angular js', 'c#', 'flask']
-                android_keyword = ['android', 'android development', 'flutter', 'kotlin', 'xml', 'kivy']
-                ios_keyword = ['ios', 'ios development', 'swift', 'cocoa', 'cocoa touch', 'xcode']
-                uiux_keyword = ['ux', 'adobe xd', 'figma', 'zeplin', 'balsamiq', 'ui', 'prototyping', 'wireframes',
-                                'storyframes', 'adobe photoshop', 'photoshop', 'editing', 'adobe illustrator',
-                                'illustrator', 'adobe after effects', 'after effects', 'adobe premier pro',
-                                'premier pro', 'adobe indesign', 'indesign', 'wireframe', 'solid', 'grasp',
-                                'user research', 'user experience']
+                ds_keyword = [
+    'tensorflow', 'keras', 'pytorch', 'machine learning', 'deep learning', 'flask', 'streamlit',
+    'data analysis', 'statistical modeling', 'r programming', 'data visualization', 'sql',
+    'big data', 'natural language processing', 'predictive analytics', 'neural networks',
+    'data mining', 'time series analysis', 'cloud computing', 'hadoop', 'spark',
+    'bayesian statistics', 'a/b testing', 'feature engineering', 'dimensionality reduction',
+    'unsupervised learning', 'supervised learning', 'reinforcement learning', 'data cleaning',
+    'data wrangling', 'data engineering', 'data warehousing', 'etl', 'business intelligence',
+    'decision trees', 'random forests', 'support vector machines', 'logistic regression',
+    'linear regression', 'optimization', 'experiment design', 'ensemble methods', 'clustering',
+    'data governance', 'data ethics', 'data privacy', 'data security', 'data strategy',
+    'data integration', 'data science lifecycle'
+]
 
+                web_keyword = [
+    'react', 'django', 'node.js', 'react.js', 'php', 'laravel', 'magento', 'wordpress',
+    'javascript', 'angularjs', 'c#', 'flask', 'html', 'css', 'responsive design',
+    'front-end development', 'back-end development', 'full-stack development', 'restful apis',
+    'web security', 'database design', 'ui/ux design', 'version control', 'agile development',
+    'cross-browser compatibility', 'performance optimization', 'testing and debugging',
+    'web accessibility', 'seo', 'cms', 'e-commerce development', 'responsive frameworks',
+    'web analytics', 'server administration', 'devops', 'continuous integration',
+    'web scraping', 'web performance', 'web standards', 'scalability', 'graphql',
+    'progressive web apps', 'microservices', 'serverless architecture', 'single page applications',
+    'websockets', 'authentication and authorization', 'payment gateway integration',
+    'mobile-first development', 'code optimization', 'c++', 'python', 'java'
+]
+                android_keyword = [
+    'android', 'android development', 'flutter', 'kotlin', 'xml', 'kivy', 'java',
+    'android studio', 'material design', 'firebase', 'json', 'mvvm', 'restful apis',
+    'sqlite', 'gradle', 'android jetpack', 'dependency injection', 'testing', 'google play store',
+    'push notifications', 'background services', 'fragments', 'recyclerview', 'permissions handling',
+    'localization', 'image and video processing', 'sensors integration', 'maps and location services',
+    'bluetooth communication', 'wearable apps', 'in-app purchases', 'security and encryption',
+    'app optimization', 'app publishing', 'app monetization', 'cross-platform development',
+    'app widgets', 'deep linking', 'android ndk', 'performance profiling', 'memory management',
+    'app notifications', 'android architecture components', 'unit testing', 'design patterns',
+    'app updates and versioning', 'app store optimization', 'app security'
+]
+
+                ios_keyword = [
+    'ios', 'ios development', 'swift', 'cocoa', 'cocoa touch', 'xcode', 'swiftui',
+    'uikit', 'core data', 'auto layout', 'storyboards', 'interface builder',
+    'core animation', 'restful apis', 'json', 'firebase', 'push notifications',
+    'app store connect', 'localization', 'in-app purchases', 'core location',
+    'mapkit', 'networking', 'core bluetooth', 'core graphics', 'core image',
+    'core ml', 'sirikit', 'healthkit', 'arkit', 'core motion', 'core audio',
+    'testflight', 'app security', 'app extensions', 'notifications and background modes',
+    'app design guidelines', 'app publishing', 'code signing', 'provisioning profiles',
+    'memory management', 'unit testing', 'design patterns', 'app lifecycle',
+    'app updates and versioning', 'app performance optimization', 'widgetkit',
+    'swift package manager', 'accessibility', 'app analytics'
+]
+                uiux_keyword =  [
+    'ux', 'adobe xd', 'figma', 'zeplin', 'balsamiq', 'ui', 'prototyping', 'wireframes',
+    'storyframes', 'adobe photoshop', 'editing', 'adobe illustrator', 'illustrator',
+    'adobe after effects', 'after effects', 'adobe premier pro', 'premier pro',
+    'adobe indesign', 'indesign', 'wireframe', 'solid', 'grasp', 'user research',
+    'user experience', 'visual design', 'typography', 'color theory', 'design systems',
+    'responsive design', 'mobile design', 'icon design', 'illustration', 'motion graphics',
+    'user flows', 'design thinking', 'user-centered design', 'persona development',
+    'branding', 'usability testing', 'interaction design', 'information architecture',
+    'user persona', 'card sorting', 'design critique', 'design collaboration',
+    'data visualization', 'responsive web design', 'mobile app design', 'human-computer interaction',
+    'cognitive psychology', 'user interface animation', 'information design', 'usability heuristics',
+    'user testing', 'a/b testing', 'accessibility design', 'user engagement'
+]
                 recommended_skills = []
                 reco_field = ''
                 rec_course = ''
+                rec_job = ''
                 ## Courses recommendation
                 for i in resume_data['Skills']:
                     ## Data science recommendation
@@ -486,6 +583,7 @@ def run():
                             '''<h4 style='text-align: left; color: #1ed760;'>Adding this skills to resume will boost🚀 the chances of getting a Job💼</h4>''',
                             unsafe_allow_html=True)
                         rec_course = course_recommender(ds_course)
+                        rec_job = jobs_recommender(ds_jobs)
                         break
 
                     ## Web development recommendation
@@ -502,6 +600,7 @@ def run():
                             '''<h4 style='text-align: left; color: #1ed760;'>Adding this skills to resume will boost🚀 the chances of getting a Job💼</h4>''',
                             unsafe_allow_html=True)
                         rec_course = course_recommender(web_course)
+                        rec_job = jobs_recommender(web_jobs)
                         break
 
                     ## Android App Development
@@ -518,6 +617,7 @@ def run():
                             '''<h4 style='text-align: left; color: #1ed760;'>Adding this skills to resume will boost🚀 the chances of getting a Job💼</h4>''',
                             unsafe_allow_html=True)
                         rec_course = course_recommender(android_course)
+                        rec_job = jobs_recommender(android_jobs)
                         break
 
                     ## IOS App Development
@@ -535,6 +635,7 @@ def run():
                             '''<h4 style='text-align: left; color: #1ed760;'>Adding this skills to resume will boost🚀 the chances of getting a Job💼</h4>''',
                             unsafe_allow_html=True)
                         rec_course = course_recommender(ios_course)
+                        rec_job = jobs_recommender(ios_jobs)
                         break
 
                     ## Ui-UX Recommendation
@@ -553,6 +654,7 @@ def run():
                             '''<h4 style='text-align: left; color: #1ed760;'>Adding this skills to resume will boost🚀 the chances of getting a Job💼</h4>''',
                             unsafe_allow_html=True)
                         rec_course = course_recommender(uiux_course)
+                        rec_job = jobs_recommender(uiux_jobs)
                         break
 
                 #
