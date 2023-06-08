@@ -1,0 +1,19 @@
+https://production-pricing.cldy.zone/v1/rds/pricesheet 241502, 298.5 MB
+https://production-pricing.cldy.zone/v1/ec2/pricesheet 4141098, 5.7 GB
+https://production-pricing.cldy.zone/v1/savingsplan/pricesheet 6373488, 6GB
+https://production-pricing.cldy.zone/v1/ec2/gpu 99411, 135.3 MB
+https://production-pricing.cldy.zone/v1/rds/4857/425355872505 241502, 298.5 MB
+https://production-pricing.cldy.zone/v1/rds/4857 241502, 298.5 MB
+https://production-pricing.cldy.zone/v1/ec2/4857/425355872505 4141098, 5.7 GB
+https://production-pricing.cldy.zone/v1/ec2/4857 4141098, 5.7 GB
+https://production-pricing.cldy.zone/v1/savingsplan/4857/425355872505 6373488, 6 GB
+https://production-pricing.cldy.zone/v1/savingsplan/4857 6373488, 6 GB
+
+https://production-pricing.cldy.zone/v1/retail/gcp/compute 14880, 266 MB
+https://production-pricing.cldy.zone/v1/retail/gcp/network 14880, 7.71MB
+https://production-pricing.cldy.zone/v1/gcp/4857/network/01E091-D83A6B-1F55DD 14204, 7.41 MB
+https://production-pricing.cldy.zone/v1/gcp/4857/compute/01E091-D83A6B-1F55DD 14204, 7.41 MB
+
+https://production-pricing.cldy.zone/v1/retail/azure/vm/consumption 392103, 378 MB
+https://production-pricing.cldy.zone/v1/retail/azure/vm/devtestconsumption 63231, 63 MB
+https://production-pricing.cldy.zone/v1/retail/azure/vm/reservation 405030, $01 MB
