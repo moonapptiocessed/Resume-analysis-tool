@@ -440,14 +440,14 @@ def jobs_recommender(job_list):
 
 st.set_page_config(
     page_title="Smart Resume Analyzer",
-    page_icon='/Users/sosarkar/collegeprojects/Resume-analysis-tool/Logo/SRA_Logo.ico',
+    page_icon='/home/ec2-user/Resume-analysis-tool/Logo/SRA_Logo.ico',
 )
 
 
 def run():
     st.title("Resume parsing tool")
     choice = 'Normal User'
-    img = Image.open('/Users/sosarkar/collegeprojects/Resume-analysis-tool/Logo/SRA_Logo.jpg')
+    img = Image.open('/home/ec2-user/Resume-analysis-tool/Logo/SRA_Logo.jpg')
     img = img.resize((250, 250))
     st.image(img)
 
