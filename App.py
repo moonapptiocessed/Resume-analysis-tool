@@ -307,7 +307,7 @@ def get_resume_for_parsing(file):
     file_for_parsing = file
     num_pages = get_pdf_page_count(file_for_parsing)
     file_data = parse_pdf(file_for_parsing)
-    text = file_data['content']
+    text = file_data
     extracted_text = {}
     extracted_text["No of pages"] = num_pages
     email = get_email_addresses(text)
