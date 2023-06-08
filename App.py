@@ -383,14 +383,14 @@ def course_recommender(course_list):
 
 st.set_page_config(
     page_title="Smart Resume Analyzer",
-    page_icon='https://www.google.com/imgres?imgurl=https%3A%2F%2Fq5n8c8q9.rocketcdn.me%2Fwp-content%2Fuploads%2F2019%2F07%2F13-of-the-Best-Animated-Resumes-We%25E2%2580%2599ve-Ever-Seen.png.webp&tbnid=EQtvBbJSqaNk_M&vet=12ahUKEwiP_MWV9bP_AhUsKrcAHTB4A80QMygFegUIARDTAQ..i&imgrefurl=https%3A%2F%2Fwww.wyzowl.com%2Fanimated-resume%2F&docid=K9JrVPYLZd_SUM&w=1000&h=500&q=animated%20resume%20pictures%20for%20college%20placements&ved=2ahUKEwiP_MWV9bP_AhUsKrcAHTB4A80QMygFegUIARDTAQ',
+    page_icon='/home/ec2-user/Resume-analysis-tool/Logo/SRA_Logo.ico',
 )
 
 
 def run():
     st.title("Resume parsing tool")
     choice = 'Normal User'
-    img = Image.open('https://www.google.com/imgres?imgurl=https%3A%2F%2Fq5n8c8q9.rocketcdn.me%2Fwp-content%2Fuploads%2F2019%2F07%2F13-of-the-Best-Animated-Resumes-We%25E2%2580%2599ve-Ever-Seen.png.webp&tbnid=EQtvBbJSqaNk_M&vet=12ahUKEwiP_MWV9bP_AhUsKrcAHTB4A80QMygFegUIARDTAQ..i&imgrefurl=https%3A%2F%2Fwww.wyzowl.com%2Fanimated-resume%2F&docid=K9JrVPYLZd_SUM&w=1000&h=500&q=animated%20resume%20pictures%20for%20college%20placements&ved=2ahUKEwiP_MWV9bP_AhUsKrcAHTB4A80QMygFegUIARDTAQ')
+    img = Image.open('/home/ec2-user/Resume-analysis-tool/Logo/SRA_Logo.jpg')
     img = img.resize((250, 250))
     st.image(img)
 
