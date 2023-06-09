@@ -36,6 +36,14 @@ from pdfminer.converter import TextConverter
 from pdfminer.layout import LAParams
 from io import StringIO
 
+
+st.set_option('deprecation.showPyplotGlobalUse', False)
+pd.set_option('display.max_columns', None)
+pd.set_option('display.max_rows', None)
+pd.set_option('display.width', None)
+pd.set_option('display.expand_frame_repr', False)
+
+
 def parse_pdf(file_path):
     resource_manager = PDFResourceManager()
     output_stream = StringIO()
@@ -419,7 +427,9 @@ def show_pdf(file_path):
 
 
 def course_recommender(course_list):
-    st.subheader("**Courses & Certificates🎓 Recommendations**")
+    st.markdown(
+                            '''<h4 style='text-align: center;'>**Courses & Certificates🎓 Recommendations**</h4>''',
+                            unsafe_allow_html=True)
     c = 0
     rec_course = []
     no_of_reco = st.slider('Choose Number of Course Recommendations:', 1, 10, 4)
@@ -433,22 +443,129 @@ def course_recommender(course_list):
     return rec_course
 
 def jobs_recommender(job_list):
-    st.subheader("Job Recommendations:")
+    st.markdown(
+                            '''<h4 style='text-align: center;'>**Job Recommendations**</h4>''',
+                            unsafe_allow_html=True)
     for job in job_list:
         job_description, job_link = job
         st.markdown(f"[{job_description}]({job_link})")
 
 st.set_page_config(
     page_title="Smart Resume Analyzer",
-    page_icon='/home/ec2-user/Resume-analysis-tool/Logo/SRA_Logo.ico',
+    page_icon='/Users/sosarkar/collegeprojects/Resume-analysis-tool/Logo/SRA_Logo.ico',
+)
+
+st.markdown(
+    """
+    <style>
+    @keyframes spiral-animation {
+      0% {
+        transform: rotate(0deg) translate(0px);
+      }
+      100% {
+        transform: rotate(360deg) translate(100px);
+      }
+    }
+    
+    .spiral-text {
+      animation: spiral-animation 5s linear infinite;
+      font-size: 40px;
+      font-weight: bold;
+      color: blue;
+      text-align: center;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
 )
 
 
 def run():
-    st.title("Resume parsing tool")
+#     st.title("Resume parsing tool")
+#     st.markdown(
+#     """
+#     <h1 style='text-align: center;'>Resume parsing tool</h1>
+#     """,
+#     unsafe_allow_html=True
+# )
+
+# Add custom CSS styles
+# Add custom CSS styles
+    import streamlit as st
+
+# Add custom CSS styles
+    st.markdown(
+    """
+    <style>
+    body {
+        background: #100f10;
+        color: #c19bf5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+    }
+
+    .container {
+        position: relative;
+        text-align: center;
+        font-family: cursive;
+    }
+
+    h2 {
+        font-size: 50px;
+        position: relative;
+        text-transform: uppercase;
+        -webkit-text-stroke: 0.3vw #f7f7fe;
+    }
+
+    h2::before {
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 100%;
+        color: #8338ec;
+        overflow: hidden;
+        position: absolute;
+        content: attr(data-text);
+        border-right: 2px solid #c19bf5;
+        -webkit-text-stroke: 0vw #f7f7fe;
+        animation: animate 6s linear infinite;
+    }
+
+    @keyframes animate {
+        0%,
+        10%,
+        20%,
+        30%,
+        100% {
+            width: 0;
+        }
+
+        70%,
+        90% {
+            width: 100%;
+        }
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+# Render the app content
+    st.markdown(
+    """
+    <div class='container'>
+        <h2 data-text='Resume_Analysing_Tool'>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</h2>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+    
     choice = 'Normal User'
-    img = Image.open('/home/ec2-user/Resume-analysis-tool/Logo/SRA_Logo.jpg')
-    img = img.resize((250, 250))
+    img = Image.open('/Users/sosarkar/collegeprojects/Resume-analysis-tool/Logo/SRA_Logo.jpg')
+    img = img.resize((1000, 900))
     st.image(img)
 
     if choice == 'Normal User':
@@ -466,25 +583,25 @@ def run():
             summary = extract_resume_data(save_image_path)
             if resume_data:
                 ## Get the whole resume data
-                st.header("**Resume Analysis**")
                 st.success("Hello " + resume_data['Name'])
                 st.subheader("**Your Basic info**")
                 st.text('Name: ' + resume_data['Name'])
+                st.text('Contact Information')
                 st.text(resume_data['E-Mail'])
                 st.text(resume_data['Phone Number'])
 
                 cand_level = ''
                 if resume_data['No of pages'] == 1:
                     cand_level = "Fresher"
-                    st.markdown('''<h4 style='text-align: left; color: #d73b5c;'>You are looking Fresher.</h4>''',
+                    st.markdown('''<h4 style='text-align: center; color: #d73b5c;'>You are looking Fresher.</h4>''',
                                 unsafe_allow_html=True)
                 elif resume_data['No of pages'] == 2:
                     cand_level = "Intermediate"
-                    st.markdown('''<h4 style='text-align: left; color: #1ed760;'>You are at intermediate level!</h4>''',
+                    st.markdown('''<h4 style='text-align: center; color: #1ed760;'>You are at intermediate level!</h4>''',
                                 unsafe_allow_html=True)
                 elif resume_data['No of pages'] >= 3:
                     cand_level = "Experienced"
-                    st.markdown('''<h4 style='text-align: left; color: #fba171;'>You are at experience level!''',
+                    st.markdown('''<h4 style='text-align: center; color: #fba171;'>You are at experience level!''',
                                 unsafe_allow_html=True)
                     
                 st.subheader("**Skills Recommendation💡**")
@@ -580,7 +697,7 @@ def run():
                                                        text='Recommended skills generated from System',
                                                        value=recommended_skills, key='2')
                         st.markdown(
-                            '''<h4 style='text-align: left; color: #1ed760;'>Adding this skills to resume will boost🚀 the chances of getting a Job💼</h4>''',
+                            '''<h4 style='text-align: center; color: #1ed760;'>Adding this skills to resume will boost🚀 the chances of getting a Job💼</h4>''',
                             unsafe_allow_html=True)
                         rec_course = course_recommender(ds_course)
                         rec_job = jobs_recommender(ds_jobs)
@@ -597,7 +714,7 @@ def run():
                                                        text='Recommended skills generated from System',
                                                        value=recommended_skills, key='3')
                         st.markdown(
-                            '''<h4 style='text-align: left; color: #1ed760;'>Adding this skills to resume will boost🚀 the chances of getting a Job💼</h4>''',
+                            '''<h4 style='text-align: center; color: #1ed760;'>Adding this skills to resume will boost🚀 the chances of getting a Job💼</h4>''',
                             unsafe_allow_html=True)
                         rec_course = course_recommender(web_course)
                         rec_job = jobs_recommender(web_jobs)
@@ -614,7 +731,7 @@ def run():
                                                        text='Recommended skills generated from System',
                                                        value=recommended_skills, key='4')
                         st.markdown(
-                            '''<h4 style='text-align: left; color: #1ed760;'>Adding this skills to resume will boost🚀 the chances of getting a Job💼</h4>''',
+                            '''<h4 style='text-align: center; color: #1ed760;'>Adding this skills to resume will boost🚀 the chances of getting a Job💼</h4>''',
                             unsafe_allow_html=True)
                         rec_course = course_recommender(android_course)
                         rec_job = jobs_recommender(android_jobs)
@@ -632,7 +749,7 @@ def run():
                                                        text='Recommended skills generated from System',
                                                        value=recommended_skills, key='5')
                         st.markdown(
-                            '''<h4 style='text-align: left; color: #1ed760;'>Adding this skills to resume will boost🚀 the chances of getting a Job💼</h4>''',
+                            '''<h4 style='text-align: center; color: #1ed760;'>Adding this skills to resume will boost🚀 the chances of getting a Job💼</h4>''',
                             unsafe_allow_html=True)
                         rec_course = course_recommender(ios_course)
                         rec_job = jobs_recommender(ios_jobs)
@@ -648,10 +765,9 @@ def run():
                                               'Illustrator', 'After Effects', 'Premier Pro', 'Indesign', 'Wireframe',
                                               'Solid', 'Grasp', 'User Research']
                         recommended_keywords = st_tags(label='### Recommended skills for you.',
-                                                       text='Recommended skills generated from System',
                                                        value=recommended_skills, key='6')
                         st.markdown(
-                            '''<h4 style='text-align: left; color: #1ed760;'>Adding this skills to resume will boost🚀 the chances of getting a Job💼</h4>''',
+                            '''<h4 style='text-align: center; color: #1ed760;'>Adding this skills to resume will boost🚀 the chances of getting a Job💼</h4>''',
                             unsafe_allow_html=True)
                         rec_course = course_recommender(uiux_course)
                         rec_job = jobs_recommender(uiux_jobs)
@@ -665,7 +781,9 @@ def run():
                 timestamp = str(cur_date + '_' + cur_time)
 
                 ### Resume writing recommendation
-                st.subheader("**Resume Tips & Ideas💡**")
+                st.markdown(
+                            '''<h4 style='text-align: center;'>**Resume Tips & Ideas💡**</h4>''',
+                            unsafe_allow_html=True)
                 resume_score = 0
                 if 'E-Mail' in resume_data:
                     resume_score = resume_score + 25
@@ -707,7 +825,10 @@ def run():
                         '''<h4 style='text-align: left; color: #fabc10;'>[-] According to our recommendation please add Projects👨‍💻. It will show that you have done work related the required position or not.</h4>''',
                         unsafe_allow_html=True)
 
-                st.subheader("**Resume Score📝**")
+                st.markdown(
+                        '''<h4 style='text-align: center;'>**Resume Score📝**</h4>''',
+                        unsafe_allow_html=True)
+
                 st.markdown(
                     """
                     <style>
@@ -726,9 +847,18 @@ def run():
                 st.success('** Your Resume Writing Score: ' + str(score) + '**')
                 st.warning(
                     "** Note: This score is calculated based on the content that you have added in your Resume. **")
-                st.title("Job score Analysis")
+                st.markdown(
+                        '''<h3 style='text-align: center;'>**Job Score Analysis📝**</h3>''',
+                        unsafe_allow_html=True)
                 st.subheader("Resume Summary")
-                st.dataframe(summary)
+                st.write(f"""
+    <style>
+        .dataframe {{ width: 100%; }}
+    </style>
+""", unsafe_allow_html=True)
+
+# Display the DataFrame
+                st.table(summary)
                 st.subheader("Resume Decomposition by Areas")
                 display_pie_chart(summary)
                 st.balloons()
